@@ -1,13 +1,13 @@
+import Link, { LinkProps } from "next/link";
 import { ComponentProps, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface CardRootProps extends ComponentProps<"a"> {
+interface CardRootProps extends ComponentProps<typeof Link> {
   children: ReactNode;
 }
 export const CardRoot = ({ children, className, ...props }: CardRootProps) => {
   return (
-    <a
-      href="/"
+    <Link
       className={twMerge(
         "bg-navy-700 border-[0.5px] border-navy-600 space-y-4 rounded-lg block p-2",
         "hover:navy-600/60 hover:border-navy-500 transition-colors duration-150",
@@ -17,6 +17,6 @@ export const CardRoot = ({ children, className, ...props }: CardRootProps) => {
       {...props}
     >
       {children}
-    </a>
+    </Link>
   );
 };
