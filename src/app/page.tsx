@@ -1,8 +1,14 @@
+import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { Section } from "@/components/Section";
 import { ArchiveIcon, MessageCircleIcon, ThumbsUpIcon } from "lucide-react";
 
-export default function Home() {
+interface BoardProps {
+  searchParams: Promise<{ q?: string }>;
+}
+
+export default async function Board({ searchParams }: BoardProps) {
+  const { q } = await searchParams;
   return (
     <div className="max-w-405 w-full mx-auto p-10  flex flex-col gap-6 h-dvh">
       <div />
@@ -19,13 +25,13 @@ export default function Home() {
                 <Card.Number count={32} />
               </Card.Header>
               <Card.Footer>
-                <button
+                <Button
                   type="button"
                   className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 bg-navy-600 cursor-pointer"
                 >
                   <ThumbsUpIcon className="size-3" />
                   <span className="text-sm">12</span>
-                </button>
+                </Button>
                 <button
                   type="button"
                   className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 bg-navy-600 cursor-pointer"
