@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 import { getIssue } from "@/http/get-issue";
 import Link from "next/link";
-import { ArchiveIcon, MoveLeftIcon, ThumbsUpIcon } from "lucide-react";
+import {
+  ArchiveIcon,
+  MessageCirclePlusIcon,
+  MoveLeftIcon,
+  ThumbsUpIcon,
+} from "lucide-react";
 import { Button } from "@/components/Button";
 import { IssueCommentsList } from "./comments/Issue-comments-list";
+import { Suspense } from "react";
+import { Loading } from "./comments/Loadin";
+import { Input } from "@/components/Input";
+import { IssueLikeButton } from "./like-button";
 interface IssuePageProps {
   params: { id: string };
 }
@@ -45,13 +54,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
           <ArchiveIcon className="size-3" />
           {statusLabel[issue.status]}
         </span>
-        <Button
-          type="button"
-          className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 bg-navy-600 cursor-pointer"
-        >
-          <ThumbsUpIcon className="size-3" />
-          <span className="text-sm">12</span>
-        </Button>
+        <IssueLikeButton issueId={issue.id} />
       </div>
       <div className="space-y-2">
         <h1 className="font-semibold text-2xl">{issue.title}</h1>
@@ -61,9 +64,19 @@ export default async function IssuePage({ params }: IssuePageProps) {
       </div>
       <div className="flex flex-col gap-2">
         <span className="font-semibold">Comments</span>
-        <form />
+        <form className="relative w-full">
+          <Input
+            className="bg-navy-900 h-11 pr-24 w-full"
+            placeholder="Live a comment.."
+          />
+          <button className="flex items-center gap-2 text-indigo-400 absolute right-3 top-1/2 -translate-y-1/2 text-xs hover:text-indigo-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+            Publish <MessageCirclePlusIcon className="size-2" />
+          </button>
+        </form>
         <div className="mt-3">
-          <IssueCommentsList issueId={issue.id} />
+          <Suspense fallback={<Loading />}>
+            <IssueCommentsList issueId={issue.id} />
+          </Suspense>
         </div>
       </div>
     </main>
